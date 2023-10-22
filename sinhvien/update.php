@@ -1,18 +1,17 @@
 <?php
 include '../connect.php';
-$student = mysqli_query($conn, "SELECT * FROM tbsinhvien");
+$student = mysqli_query($conn, "SELECT * FROM tblsinhvien");
 
 // nếu bấm vào nút submit thì thực hiện
 if (isset($_GET['masv'])) {
     $masv = $_GET['masv'];
-    $data = mysqli_query($conn, "SELECT * FROM tbsinhvien WHERE masv = '$masv'");
+    $data = mysqli_query($conn, "SELECT * FROM tblsinhvien WHERE masv = '$masv'");
     $stu = mysqli_fetch_assoc($data);
 }
 // nếu bấm vào nút submit thì thực hiện
 if (isset($_POST['ho_ten'])) {
     $ho_ten = $_POST['ho_ten'];
-    $lop = $_POST['lop'];
-    $masv = $_POST['masv'];
+    $ngay_sinh= $_POST['ngay_sinh'];
     $gioi_tinh = $_POST['gioi_tinh'];
     $que_quan = $_POST['que_quan'];
     if (empty($_FILES['anh']['name'])) {
@@ -22,7 +21,7 @@ if (isset($_POST['ho_ten'])) {
         $file_name = $anh['name'];
         move_uploaded_file($anh['tmp_name'], '../uploads/' . $file_name);
     }
-    $sql = "UPDATE tbsinhvien SET ho_ten='$ho_ten',lop='$lop',que_quan='$que_quan',gioi_tinh=$gioi_tinh,anh='$file_name' WHERE masv='$masv'";
+    $sql = "UPDATE tblsinhvien SET ho_ten='$ho_ten',ngay_sinh='$ngay_sinh',que_quan='$que_quan',gioi_tinh=$gioi_tinh,anh='$file_name' WHERE masv='$masv'";
     $query = mysqli_query($conn, $sql);
     if ($query) {
         header('location: index.php');
@@ -53,18 +52,13 @@ mysqli_close($conn);
                 <form role="form" method="post" action="" enctype="multipart/form-data">
 
                     <div class="box-body p-5">
-
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Mã sinh viên</label>
-                            <input type="text" class="form-control" name="masv" value="<?php echo $stu['masv'] ?>">
-                        </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Họ tên</label>
                             <input type="text" class="form-control" name="ho_ten" value="<?php echo $stu['ho_ten'] ?>">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Lớp</label>
-                            <input type="text" class="form-control" name="lop" value="<?php echo $stu['lop'] ?>">
+                            <label for="exampleInputEmail1">Ngày sinh</label>
+                            <input type="date" class="form-control" name="ngay_sinh" value="<?php echo $stu['ngay_sinh'] ?>">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Giới tính</label>

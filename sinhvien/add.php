@@ -1,12 +1,11 @@
 <?php
 include '../connect.php';
-$student = mysqli_query($conn, "SELECT * FROM tbsinhvien");
+$student = mysqli_query($conn, "SELECT * FROM tblSinhVien");
 
 // nếu bấm vào nút submit thì thực hiện
 if (isset($_POST['ho_ten'])) {
     $ho_ten = $_POST['ho_ten'];
-    $lop = $_POST['lop'];
-    $masv = $_POST['masv'];
+    $ngay_sinh= $_POST['ngay_sinh'];
     $gioi_tinh = $_POST['gioi_tinh'];
     $que_quan = $_POST['que_quan'];
     if (isset($_FILES['anh'])) {
@@ -14,7 +13,7 @@ if (isset($_POST['ho_ten'])) {
         $file_name = $anh['name'];
         move_uploaded_file($anh['tmp_name'], '../uploads/' . $file_name);
     }
-    $sql = "INSERT INTO tbsinhvien(ho_ten,lop,masv,que_quan,gioi_tinh,anh) Values('$ho_ten','$lop','$masv','$que_quan',$gioi_tinh,'$file_name')";
+    $sql = "INSERT INTO tblsinhvien(ho_ten,ngay_sinh,que_quan,gioi_tinh,anh) Values('$ho_ten','$ngay_sinh','$que_quan',$gioi_tinh,'$file_name')";
     $query = mysqli_query($conn, $sql);
     if ($query) {
         header('location: index.php');
@@ -44,17 +43,14 @@ mysqli_close($conn);
             <div class="col-lg-8">
                 <form role="form" method="post" action="" enctype="multipart/form-data">
                     <div class="box-body p-5">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Mã sinh viên</label>
-                            <input type="text" class="form-control" name="masv">
-                        </div>
+                       
                         <div class="form-group">
                             <label for="exampleInputEmail1">Họ tên</label>
                             <input type="text" class="form-control" name="ho_ten">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Lớp</label>
-                            <input type="text" class="form-control" name="lop">
+                            <label for="exampleInputEmail1">Ngày sinh</label>
+                            <input type="date" class="form-control" name="ngay_sinh">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Giới tính</label>

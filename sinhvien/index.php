@@ -1,6 +1,13 @@
 <?php
 include '../connect.php';
-$student = mysqli_query($conn, "SELECT * FROM tbsinhvien");
+$student = mysqli_query($conn, "SELECT * FROM tblsinhvien");
+if (isset($_POST['key'])) {
+    $key = $_POST['key'];
+   
+    $student = mysqli_query($conn, "SELECT * FROM tblsinhvien where ho_ten like '%$key%'");
+   
+
+}
 mysqli_close($conn);
 ?>
 <!doctype html>
@@ -21,14 +28,33 @@ mysqli_close($conn);
     <div class="container">
         <div class="row d-flex justify-content-center">
             <div class="col-lg-8 ">
-                <a href="add.php" class="btn btn-success mt-5">+Thêm sinh viên</a>
+                <div class="p-2 align-items-center d-flex justify-content-between" >
+                    <div>
+                        <a href="add.php" class="btn btn-success ">+Thêm sinh viên</a>
+                    </div>
+
+                    <div class="card-tools">
+                        <form  method="post">
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                                <input type="text" name="key" class="form-control float-right" placeholder="Search">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        
+                    </div>
+                </div>
+
                 <table class="table">
                     <thead>
                         <tr>
                             <th>STT</th>
                             <th>Ảnh</th>
                             <th>Tên Sinh Viên</th>
-                            <th>Lớp</th>
+                            <th>Ngày sinh</th>
                             <th>Giới tính</th>
                             <th>Quê quán</th>
                             <th>Tùy chọn</th>
@@ -41,7 +67,7 @@ mysqli_close($conn);
                                 <td scope="row"><?php echo $key + 1 ?></td>
                                 <td><img src="../uploads/<?php echo $value['anh'] ?>" width="60px" height="80px"></td>
                                 <td><?php echo $value['ho_ten'] ?></td>
-                                <td><?php echo $value['lop'] ?></td>
+                                <td><?php echo $value['ngay_sinh'] ?></td>
                                 <?php if ($value['gioi_tinh'] == 1) { ?>
                                     <td>Nam</td>
                                 <?php } else { ?>
@@ -50,7 +76,7 @@ mysqli_close($conn);
                                 <td><?php echo $value['que_quan'] ?></td>
                                 <td title="Sửa"><a href="update.php?masv=<?php echo $value['masv'] ?>"><i class="fas fa-pen"></i></a></td>
                                 <td title="Xóa"><a href="delete.php?masv=<?php echo $value['masv'] ?>" class="text-danger"><i class="fas fa-trash"></i></a></td>
-                                
+
                             </tr>
                         <?php endforeach ?>
                     </tbody>

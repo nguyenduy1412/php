@@ -1,8 +1,8 @@
 <?php
 include '../connect.php';
-    if(isset($_GET['masv'])){
-        $masv=$_GET['masv'];
-        $query=mysqli_query($conn,"DELETE FROM tblsinhvien WHERE masv='$masv'");
+    if(isset($_GET['id'])){
+        $id=$_GET['id'];
+        $query=mysqli_query($conn,"DELETE FROM tbluser WHERE id='$id'");
         if($query){
             header('location: index.php');
         }
